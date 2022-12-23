@@ -201,6 +201,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.ApplicationNodes.image.repository }}:{{ .Values.ApplicationNodes.image.tag }}"
           imagePullPolicy: {{ .Values.ApplicationNodes.image.pullPolicy }}
+          {{- if .Values.ApplicationNodes.containerSecurityContext }}
+          securityContext:
+{{ toYaml .Values.ApplicationNodes.containerSecurityContext | indent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.internalPort }}
